@@ -42,6 +42,40 @@
             position: relative;
         }
 
+        /* Transition Effects */
+        .screen-transition {
+            animation: fadeInScreen 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+        @keyframes fadeInScreen {
+            from { opacity: 0; transform: scale(0.98); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* Feedback Overlay (Doğru/Yanlış) */
+        .feedback-overlay {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 4rem;
+            font-weight: 900;
+            z-index: 50;
+            pointer-events: none;
+            text-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            opacity: 0;
+            white-space: nowrap;
+        }
+        .fb-correct { color: var(--success); }
+        .fb-wrong { color: var(--p2-color); }
+        
+        .fb-animate {
+            animation: feedbackPopup 0.7s ease-out forwards;
+        }
+        @keyframes feedbackPopup {
+            0% { opacity: 0; transform: translate(-50%, -20%) scale(0.5); }
+            30% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
+            100% { opacity: 0; transform: translate(-50%, -100%) scale(1); }
+        }
+
         /* Sami G. Signature */
         .sami-g-signature {
             position: fixed;
@@ -263,7 +297,7 @@
             padding-bottom: 40px; /* Space for signature */
         }
 
-        /* Tug of War (Yarış Görseli) - Improved */
+        /* Tug of War (Yarış Görseli) */
         #tug-container {
             width: 100%;
             height: 70px;
@@ -286,7 +320,6 @@
             border-radius: 4px;
             box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
         }
-        /* Dashed line for track */
         #tug-track::before { 
             content:''; position: absolute; left: 0; top: 50%; width: 100%; height: 2px;
             background-image: linear-gradient(to right, #b2bec3 50%, transparent 50%);
@@ -379,7 +412,7 @@
             padding: 5px 10px; border-radius: 10px; font-weight: 600;
         }
 
-        /* Question Area - Bigger & Distinct */
+        /* Question Area */
         .question-box {
             background: #2d3436; color: white; border-radius: 20px;
             padding: 20px 10px; text-align: center; margin-bottom: 15px;
@@ -399,7 +432,7 @@
             font-family: 'Courier New', monospace; font-weight: bold;
         }
 
-        /* Numpad Grid Layout */
+        /* Numpad */
         .numpad {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -408,7 +441,6 @@
             flex-grow: 1;
         }
         
-        /* General Num Buttons */
         .btn {
             border: none; border-radius: 15px; font-size: 1.5rem; font-weight: 700;
             cursor: pointer; background: #f1f2f6; color: var(--text);
@@ -417,35 +449,12 @@
         }
         .btn:active { transform: translateY(4px); box-shadow: none; background: #dfe6e9; }
 
-        /* Specific Button Locations & Styles */
-        /* Digits 1-9 are handled by order in HTML */
-        
-        /* SİL Button */
-        .btn-sil {
-            background: var(--sil-color); color: white;
-            box-shadow: 0 4px 0 var(--sil-dark);
-            font-size: 1.2rem;
-        }
+        .btn-sil { background: var(--sil-color); color: white; box-shadow: 0 4px 0 var(--sil-dark); font-size: 1.2rem; }
         .btn-sil:active { background: var(--sil-color); box-shadow: none; }
-
-        /* 0 Button */
-        .btn-zero { grid-column: span 2; } /* Make 0 wider next to delete */
-
-        /* Bottom Action Buttons */
-        .btn-pass {
-            grid-column: 1 / 2; /* Left */
-            background: var(--orange); color: white;
-            font-size: 1.1rem; box-shadow: 0 4px 0 #c0392b;
-            text-transform: uppercase;
-        }
+        .btn-zero { grid-column: span 2; }
+        .btn-pass { grid-column: 1 / 2; background: var(--orange); color: white; font-size: 1.1rem; box-shadow: 0 4px 0 #c0392b; text-transform: uppercase; }
         .btn-pass:active { background: var(--orange); box-shadow: none; }
-
-        .btn-result {
-            grid-column: 2 / 4; /* Right (Wider) */
-            background: var(--success); color: white;
-            font-size: 1.3rem; box-shadow: 0 4px 0 var(--success-dark);
-            text-transform: uppercase; letter-spacing: 1px;
-        }
+        .btn-result { grid-column: 2 / 4; background: var(--success); color: white; font-size: 1.3rem; box-shadow: 0 4px 0 var(--success-dark); text-transform: uppercase; letter-spacing: 1px; }
         .btn-result:active { background: var(--success); box-shadow: none; }
 
         /* Animations */
@@ -454,25 +463,10 @@
             25% { transform: translateX(-10px) rotate(-5deg); }
             75% { transform: translateX(10px) rotate(5deg); }
         }
-        .wrong { 
-            animation: shake 0.4s ease-in-out; 
-            background: #ff4757 !important; 
-            border-color: #fff !important;
-            box-shadow: 0 0 20px #ff4757;
-        }
-
-        @keyframes pop {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
+        .wrong { animation: shake 0.4s ease-in-out; background: #ff4757 !important; border-color: #fff !important; box-shadow: 0 0 20px #ff4757; }
+        @keyframes pop { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
         .correct { animation: pop 0.3s; background: var(--success) !important; border-color: #fff; }
-
-        @keyframes bounceIn {
-            0% { transform: scale(0.3); opacity: 0; }
-            50% { transform: scale(1.1); opacity: 1; }
-            100% { transform: scale(1); opacity: 1; }
-        }
+        @keyframes bounceIn { 0% { transform: scale(0.3); opacity: 0; } 50% { transform: scale(1.1); opacity: 1; } 100% { transform: scale(1); opacity: 1; } }
 
         /* Countdown & Results */
         #countdown-screen, #result-screen {
@@ -488,9 +482,7 @@
         @keyframes winner-pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
 
         /* Confetti Canvas */
-        #confetti-canvas {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none;
-        }
+        #confetti-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
 
         /* Responsive */
         @media (max-width: 800px) {
@@ -500,6 +492,7 @@
             .q-text { font-size: 2.5rem; }
             #leaderboard-screen { padding: 10px; }
             #tug-emoji { font-size: 2.5rem; }
+            .feedback-overlay { font-size: 3rem; }
         }
     </style>
 </head>
@@ -514,9 +507,8 @@
 </button>
 
 <!-- SETUP SCREEN -->
-<div id="setup-screen">
+<div id="setup-screen" class="screen-transition">
     <div class="setup-card">
-        <!-- Hall of Fame Box -->
         <div class="hall-of-fame" id="hall-of-fame">
             <div>👑 ŞU ANKİ REKOR ONDA! 👑</div>
             <div class="record-holder-name" id="record-holder">KİMSE</div>
@@ -587,9 +579,7 @@
                         <th>Kazanan</th>
                     </tr>
                 </thead>
-                <tbody id="leaderboard-body">
-                    <!-- JS ile dolacak -->
-                </tbody>
+                <tbody id="leaderboard-body"></tbody>
             </table>
         </div>
         <button class="start-btn" onclick="toggleLeaderboard(false)" style="margin-top: 20px; background:#b2bec3; box-shadow:0 6px 0 #636e72;">KAPAT</button>
@@ -649,6 +639,9 @@
 <div id="game-screen">
     <!-- Player 1 Zone -->
     <div class="player-zone" id="zone-1">
+        <!-- Feedback Overlay -->
+        <div id="p1-feedback" class="feedback-overlay"></div>
+        
         <div class="header">
             <div class="player-name p1-name" id="p1-display-name">OYUNCU 1</div>
             <div style="display:flex; gap:10px; align-items:center;">
@@ -684,6 +677,9 @@
 
     <!-- Player 2 Zone -->
     <div class="player-zone" id="zone-2">
+        <!-- Feedback Overlay -->
+        <div id="p2-feedback" class="feedback-overlay"></div>
+        
         <div class="header">
             <div class="player-name p2-name" id="p2-display-name">OYUNCU 2</div>
             <div style="display:flex; gap:10px; align-items:center;">
@@ -776,7 +772,6 @@
             osc.start(now);
             osc.stop(now + 0.3);
         } else if (type === 'win') {
-            // Simple arpeggio
             [440, 554, 659, 880].forEach((freq, i) => {
                 const o = audioCtx.createOscillator();
                 const g = audioCtx.createGain();
@@ -871,6 +866,7 @@
         const scr = document.getElementById('leaderboard-screen');
         scr.style.display = show ? 'flex' : 'none';
         if (show) {
+            scr.classList.add('screen-transition');
             const body = document.getElementById('leaderboard-body');
             body.innerHTML = sessionHistory.map((m, i) => {
                 const isWinnerKing = (m.winner !== "Berabere" && (m.p1.score === currentRecord.score || m.p2.score === currentRecord.score));
@@ -885,6 +881,21 @@
         }
     }
 
+    function switchScreen(hideId, showId, displayType = 'flex') {
+        const hideEl = document.getElementById(hideId);
+        const showEl = document.getElementById(showId);
+        
+        hideEl.style.opacity = 0;
+        setTimeout(() => {
+            hideEl.style.display = 'none';
+            showEl.style.display = displayType;
+            // Trigger animation
+            showEl.classList.remove('screen-transition');
+            void showEl.offsetWidth; // reflow
+            showEl.classList.add('screen-transition');
+        }, 200);
+    }
+
     function goToInstructions() {
         if (soundEnabled && audioCtx.state === 'suspended') audioCtx.resume();
         gameState.p1.name = document.getElementById('p1-name-input').value.trim() || "Oyuncu 1";
@@ -893,8 +904,7 @@
         document.getElementById('instr-p1-name').textContent = gameState.p1.name.toUpperCase();
         document.getElementById('instr-p2-name').textContent = gameState.p2.name.toUpperCase();
 
-        document.getElementById('setup-screen').style.display = 'none';
-        document.getElementById('instruction-screen').style.display = 'flex';
+        switchScreen('setup-screen', 'instruction-screen');
         
         const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
         document.getElementById('tug-emoji').textContent = randomEmoji;
@@ -942,7 +952,7 @@
             void txt.offsetWidth; 
             txt.textContent = c;
             txt.style.animation = 'bounceIn 1s forwards';
-            if (soundEnabled) playSound('correct'); // Beep
+            if (soundEnabled) playSound('correct'); 
             
             setTimeout(() => {
                 c--;
@@ -985,6 +995,8 @@
         document.getElementById('p2-display-name').textContent = gameState.p2.name.toUpperCase();
         
         document.getElementById('game-screen').style.display = 'grid';
+        document.getElementById('game-screen').classList.add('screen-transition');
+        
         document.getElementById('tug-container').style.display = 'flex';
         document.getElementById('timer-bar-container').style.display = 'flex';
         document.getElementById('pause-btn').textContent = "DURAKLAT";
@@ -1003,7 +1015,7 @@
 
         const loop = setInterval(() => {
             if (!gameState.active) { clearInterval(loop); return; }
-            if (gameState.paused) return; // Skip logic if paused
+            if (gameState.paused) return; 
 
             gameState.timeLeft--;
             
@@ -1068,6 +1080,19 @@
         document.getElementById(`p${p}-adisplay`).textContent = "";
     }
 
+    function showFeedback(p, text, type) {
+        const el = document.getElementById(`p${p}-feedback`);
+        el.textContent = text;
+        el.className = 'feedback-overlay'; // Reset
+        
+        if(type === 'correct') el.classList.add('fb-correct');
+        else el.classList.add('fb-wrong');
+        
+        // Trigger reflow for restart
+        void el.offsetWidth;
+        el.classList.add('fb-animate');
+    }
+
     function check(p) {
         const ps = gameState[`p${p}`];
         if (ps.input === "") return;
@@ -1078,11 +1103,16 @@
             ps.score += (config.difficulty * 10);
             ps.streak++;
             
-            // Streak Logic
+            // Streak Logic & Feedback
             const streakIcon = document.getElementById(`p${p}-streak-icon`);
+            let msg = "DOĞRU!";
+            
             if (ps.streak >= 3) {
                 streakIcon.classList.add('streak-active');
+                msg = `SERİ x${ps.streak}!`;
             }
+            
+            showFeedback(p, msg, 'correct');
 
             document.getElementById(`p${p}-score-val`).textContent = ps.score;
             box.classList.add('correct');
@@ -1093,6 +1123,8 @@
             }, 300);
         } else {
             playSound('wrong');
+            showFeedback(p, "YANLIŞ!", 'wrong');
+            
             box.classList.add('wrong');
             ps.input = "";
             ps.streak = 0; // Reset streak
@@ -1144,7 +1176,11 @@
         }
         
         document.getElementById('final-stats').textContent = `${gameState.p1.name}: ${p1} PUAN | ${gameState.p2.name}: ${p2} PUAN`;
-        document.getElementById('result-screen').style.display = 'flex';
+        
+        switchScreen('game-screen', 'result-screen');
+        // Hide Game specific bars for result
+        document.getElementById('tug-container').style.display = 'none';
+        document.getElementById('timer-bar-container').style.display = 'none';
     }
 
     function resetGame() {
@@ -1159,11 +1195,10 @@
         document.getElementById('p1-streak-icon').classList.remove('streak-active');
         document.getElementById('p2-streak-icon').classList.remove('streak-active');
 
-        document.getElementById('result-screen').style.display = 'none';
-        document.getElementById('game-screen').style.display = 'none';
+        switchScreen('result-screen', 'setup-screen');
+        
         document.getElementById('tug-container').style.display = 'none';
         document.getElementById('timer-bar-container').style.display = 'none';
-        document.getElementById('setup-screen').style.display = 'flex';
         
         const bar = document.getElementById('timer-bar');
         bar.style.width = "100%";
@@ -1219,8 +1254,10 @@
         confettiActive = false;
         cancelAnimationFrame(confettiAnim);
         const canvas = document.getElementById('confetti-canvas');
-        const ctx = canvas.getContext('2d');
-        ctx.clearRect(0,0,canvas.width,canvas.height);
+        if(canvas) {
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0,0,canvas.width,canvas.height);
+        }
     }
 
     window.onload = setupTouchSupport;
